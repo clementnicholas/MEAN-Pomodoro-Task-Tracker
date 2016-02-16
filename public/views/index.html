@@ -43,7 +43,7 @@
 
   <div id="tasks" data-ng-show="authentication.user">
     <div class="task-list">
-
+        <h3 data-ng-show="tasks.length">Add your first task and start being productive!</h3>
         <div class="card card-block" data-ng-class="{active: task.active}" data-ng-repeat="task in tasks">
           <h4 class="card-title">{{ task.title }}</h4>
           <p class="card-text">{{ task.desc }}</p>
