@@ -1,0 +1,112 @@
+<div data-ng-controller="mainController">
+  <header>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header page-scroll">
+          <a class="navbar-brand" href="#!/">Pomodoro To Do!</a>
+        </div> 
+
+        <ul class="nav navbar-nav navbar-right">
+          <li data-ng-show="!authentication.user"><a href="/auth/facebook"><span class="fa fa-facebook"></span> Facebook</a></li>          
+          <li data-ng-show="!authentication.user"><a href="/auth/google"><span class="fa fa-google-plus"></span> Google</a></li>
+          <li data-ng-show="authentication.user && !authentication.user.facebook.token"><a href="/connect/facebook"><span class="fa fa-facebook"></span> Connect Facebook Account</a></li>
+          <li data-ng-show="authentication.user && !authentication.user.google.token"><a href="/connect/google"><span class="fa fa-google-plus"></span> Connect Google Account</a></li>
+          <li data-ng-show="authentication.user"><a href="/logout" id="logout"> Logout</a></li> 
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <div data-ng-show="!authentication.user" class="text-center">
+    <div class="row">
+      <div class="col-md-8 col-xs-10 col-md-offset-2 col-xs-offset-1">
+        <div class="row">
+          <div class="icon col-md-4 col-md-offset-1 col-xs-8 col-xs-offset-2">
+            <h3>Login with Facebook:</h3>
+            <a href="/auth/facebook"><span class="fa fa-facebook fa-5x"></span></a>
+          </div>
+          <div class="icon col-md-4 col-xs-8 col-xs-offset-2 col-md-offset-2">
+            <h3>Login with Google:</h3>
+            <a href="/auth/google"><span class="fa fa-google-plus fa-5x"></span></a>
+          </div>
+        </div>  
+      </div>
+    </div>
+  </div>
+
+  <div data-ng-show="authentication.user" class="jumbotron text-center" id="timer-container">
+        <h1>{{ timeDisplay }}</h1>
+    <button class="btn btn-primary" data-ng-click="start()">Start</button>
+    <button class="btn btn-primary" data-ng-click="stop()">Stop</button>
+    <button class="btn btn-primary" data-ng-click="takeBreak()">Break</button>
+  </div>
+
+  <div id="tasks" data-ng-show="authentication.user">
+    <div class="task-list">
+
+        <div class="card card-block" data-ng-class="{active: task.active}" data-ng-repeat="task in tasks">
+          <h4 class="card-title">{{ task.title }}</h4>
+          <p class="card-text">{{ task.desc }}</p>
+          <p class="card-text"><strong>Complete by:</strong> {{ task.deadline | date : 'MMM d, y h:mm a' }}</p>
+          <ul class='card-footer'>
+            <li><span><img src="css/tomato.ico" width="24px" alt="Poms:">: {{ task.pomodoroCount }}</span></li>
+            <li><button class="btn btn-primary btn-xs" data-ng-click="populateForm(task._id)">Edit</button></li>
+            <li><button class="btn btn-primary btn-xs" data-ng-click="reset(); setPomodoroTask(task._id); activateTask(task._id)">Work</button></li>
+            <li><i class="fa fa-trash fa-2x" data-ng-click="deleteTask(task._id)"></i></li>
+            <li><input type="checkbox" width="30px" class="checkbox" data-ng-checked="task.completed" data-ng-model="task.completed" data-ng-change="updateTask(task._id)"></li>
+          </ul>
+        </div>
+
+    </div>
+
+    <div data-ng-show="authentication.user" class="task-form-div">
+      <div class="text-center">
+        <form class="task-form">
+          <div class="form-group">
+
+            <input type="text" maxlength="30" class="form-control input-lg text-center form-title" placeholder="Task" data-ng-model="title">
+
+            <textarea type="text" id="form-desc" class="form-control form-text" placeholder="Description here..." data-ng-model="desc" maxlength="140"></textarea>
+
+            <div class="input-group date" id="datetimepicker">
+              <input type="text" class="form-control dp" id="deadlinepicker" placeholder="Deadline" data-ng-model="deadline">
+              <span class="input-group-addon">
+                <span class="fa fa-calendar">
+                </span>
+              </span>
+            </div>
+
+          </div>
+
+          <script type="text/javascript">
+            $(function() {
+              $('#datetimepicker').datetimepicker();
+            });
+          </script>
+          
+
+          <button data-ng-show="!editing" type="submit" class="btn btn-primary btn-lg" data-ng-click="createTask()">Save Task</button>
+          <button data-ng-show="editing" type="submit" class="btn btn-primary btn-lg" data-ng-click="updateTask(task._id)">Update Task</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+  <audio id="audio" src="/css/harmonica.mp3" autobuffer volume="1.0">
+    <p>Your browser does not support the <code>audio</code> element.</p>
+  </audio>
+
+
+<script>
+//     document.getElementById('logout').addEventListener('click', function() {
+//     FB.logout(function(response) {
+//       console.log(response);
+//       console.log('logging out of facebook');
+//     });
+//   });
+
+// </script>
+
+</div>
