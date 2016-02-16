@@ -25,7 +25,7 @@ angular.module('tasks', [])
         timerService.start();
         $scope.timerDisabled = true;
       }
-      if ($scope.isPomodoro) {
+      if ($scope.isPomodoro && $scope.pomodoroTask) {
         $scope.pomodoroTask.pomodoroCount++;
         $scope.updateTask($scope.pomodoroTask._id);
         $scope.isPomodoro = false;
