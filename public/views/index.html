@@ -9,8 +9,8 @@
         <ul class="nav navbar-nav navbar-right">
           <li data-ng-show="!authentication.user"><a href="/auth/facebook"><span class="fa fa-facebook"></span> Facebook</a></li>          
           <li data-ng-show="!authentication.user"><a href="/auth/google"><span class="fa fa-google-plus"></span> Google</a></li>
-          <li data-ng-show="authentication.user" && "authentication.user.facebook.name">Welcome, {{authentication.user.facebook.name}}</li>
-          <li data-ng-show="authentication.user" && "!authentication.user.facebook.name">Welcome, {{authentication.user.google.name}}</li>
+          <li data-ng-show="authentication.user && authentication.user.facebook.name">Welcome, {{authentication.user.facebook.name}}</li>
+          <li data-ng-show="authentication.user && !authentication.user.facebook.name && authentication.user.google.name">Welcome, {{authentication.user.google.name}}</li>
           <li data-ng-show="authentication.user && !authentication.user.facebook.token"><a href="/connect/facebook"><span class="fa fa-facebook"></span> Connect Facebook Account</a></li>
           <li data-ng-show="authentication.user && !authentication.user.google.token"><a href="/connect/google"><span class="fa fa-google-plus"></span> Connect Google Account</a></li>
           <li data-ng-show="authentication.user"><a href="/logout" id="logout"> Logout</a></li> 
